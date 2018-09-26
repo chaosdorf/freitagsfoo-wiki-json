@@ -1,12 +1,10 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "cb5af752821519f02c26cecc06a644ed9bfa9f9c70a6ffdebe5dd54a2eef8889"
+            "sha256": "070bdd38db330a2e69f9b421cb21cb974bbbbecd0c4f8d4eda71aac0a3860321"
         },
         "pipfile-spec": 6,
-        "requires": {
-            "python_version": "3.6"
-        },
+        "requires": {},
         "sources": [
             {
                 "name": "pypi",
@@ -39,11 +37,11 @@
         },
         "mwclient": {
             "hashes": [
-                "sha256:3bdaaa48fda6386b190651e49484a549bd0c48b97573dbda34a8b7c4c80430ed",
-                "sha256:eb0d6f134e3c2e8c7c46a439f8c5d97c4812a5826110583351a2663b9f14a771"
+                "sha256:10d318b36f1f38c3d480ab95450514054a9b7b2d00315cac4f97d096284b17e3",
+                "sha256:ed7a0eeb98f0309946ae8762b60eae10eb507e4b67400931ec24abd0aee3d7b4"
             ],
             "index": "pypi",
-            "version": "==0.8.7"
+            "version": "==0.9.1"
         },
         "oauthlib": {
             "hashes": [
@@ -110,11 +108,11 @@
         },
         "wikitextparser": {
             "hashes": [
-                "sha256:308be0a1e424183cfbed4b27e9985c55b90e51b0de3823b4de18b621ed4401d0",
-                "sha256:3aef2549620b418fc971d902342bbef6307ceb565dc309a74c7ae55af27fdc5c"
+                "sha256:4c529e109f1878497b26b766a5ac72a9e5ed9ccd5179e6216ae5076ecd7115a8",
+                "sha256:fc8a1645ac0a264969341bca474b525ff77e67b044bcfa8c5d9a4a96bb53afa0"
             ],
             "index": "pypi",
-            "version": "==0.21.5"
+            "version": "==0.22.0"
         }
     },
     "develop": {}
