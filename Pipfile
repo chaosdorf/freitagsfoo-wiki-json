@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-wikitextparser = "==0.21.5"
-mwclient = "==0.8.7"
+wikitextparser = "*"
+mwclient = "*"
 
 [dev-packages]
 
