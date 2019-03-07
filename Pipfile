@@ -6,7 +6,9 @@ name = "pypi"
 [packages]
 wikitextparser = "*"
 mwclient = "*"
+mypy-extensions = "*"
 
 [dev-packages]
+mypy = "*"
 
 [requires]

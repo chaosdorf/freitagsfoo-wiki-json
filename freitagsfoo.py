@@ -1,22 +1,36 @@
 #!/usr/bin/env python3
-from mwclient import Site
+from mwclient.client import Site
+from mwclient.page import Page
 import wikitextparser as wtp
 import datetime
 import json
+from typing import List, Tuple
+from mypy_extensions import TypedDict
+
+Talk = TypedDict("Talk", {
+    "title": str,
+    # "description": str,
+    "persons": List[str],
+})
+Result = TypedDict("Result", {
+    "hosts": List[str],
+    "date": str,
+    "talks": List[Talk],
+})
 
 
-def get_friday():
+def get_friday() -> datetime.date:
     """Calculate the date of the current week's Friday."""
     today = datetime.date.today()
     return today + datetime.timedelta(days=4-today.weekday())
 
 
-def load_page_for_date(site, date):
+def load_page_for_date(site: Site, date: datetime.date) -> Page:
     """Load the Freitagsfoo wiki page for the given date."""
     return site.pages["Freitagsfoo/{}".format(date)]
 
 
-def parse_top_section(page):
+def parse_top_section(page: Page) -> Tuple[List[str], str]:
     """Parse the top section, return hosts and date as YYYY-MM-DD."""
     top_section = page.text(section=0)
     parsed_top_section = wtp.parse(top_section)
@@ -28,32 +42,35 @@ def parse_top_section(page):
     return hosts, date
 
 
-def parse_talks(sections):
+def parse_talks(sections: List[wtp.Section]) -> List[Talk]:
     """Parse the remaining sections: the talks."""
-    talks = list()
+    talks: List[Talk] = list()
     for section in sections[1:]:
-        talk = dict()
-        talk["title"] = section.title.strip()
-        # TODO: talk["description"]
-        talk["persons"] = list()
+        title = section.title.strip()
+        # TODO: description
+        persons: List[str] = list()
         section = wtp.parse(section.string)  # bug!
         # `[[User:FIXME|FIXME]]`
         for wikilink in section.wikilinks:
             if wikilink.target.startswith("User:"):
-                talk["persons"].append(
+                persons.append(
                     wikilink.target.replace("User:", "").lower()
                 )
         # `{{U|FIXME}}`
         for template in section.templates:
             if template.name == "U":
-                talk["persons"].append(
+                persons.append(
                     template.arguments[0].value.lower()
                 )
-        talks.append(talk)
+        talks.append({
+            "title": title,
+            # "description": description,
+            "persons": persons,
+        })
     return talks
 
 
-def parse_page(page):
+def parse_page(page: Page) -> Result:
     """Parse the given sections returning a dict."""
     hosts, date = parse_top_section(page)
     sections = wtp.parse(page.text()).sections
