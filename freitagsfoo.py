@@ -44,10 +44,10 @@ def parse_top_section(page: Page) -> Tuple[List[str], str]:
 
 def parse_talks(sections: List[wtp.Section]) -> List[Talk]:
     """Parse the remaining sections: the talks."""
-    talks: List[Talk] = list()
+    talks = list()  # type: List[Talk]
     for section in sections[1:]:
         title = section.title.strip()
-        persons: List[str] = list()
+        persons = list()  # type: List[str]
         section_ = wtp.parse(section.string)  # bug!
         # `[[User:FIXME|FIXME]]`
         for wikilink in section_.wikilinks:
