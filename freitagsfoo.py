@@ -9,7 +9,7 @@ from mypy_extensions import TypedDict
 
 Talk = TypedDict("Talk", {
     "title": str,
-    # "description": str,
+    "description": str,
     "persons": List[str],
 })
 Result = TypedDict("Result", {
@@ -47,24 +47,34 @@ def parse_talks(sections: List[wtp.Section]) -> List[Talk]:
     talks: List[Talk] = list()
     for section in sections[1:]:
         title = section.title.strip()
-        # TODO: description
         persons: List[str] = list()
-        section = wtp.parse(section.string)  # bug!
+        section_ = wtp.parse(section.string)  # bug!
         # `[[User:FIXME|FIXME]]`
-        for wikilink in section.wikilinks:
+        for wikilink in section_.wikilinks:
             if wikilink.target.startswith("User:"):
                 persons.append(
                     wikilink.target.replace("User:", "").lower()
                 )
         # `{{U|FIXME}}`
-        for template in section.templates:
+        for template in section_.templates:
             if template.name == "U":
                 persons.append(
                     template.arguments[0].value.lower()
                 )
+        # description
+        description = ""
+        for line in section.contents.splitlines():
+            if not line.strip():
+                continue
+            # This tries to filter out lines like "by {{U|FIXME}}".
+            if all((person in line.lower() for person in persons)):
+                if len(line) < len(",".join(persons)) + len(persons)*10 + 5:  # guessed
+                    continue
+            description += line.strip() + " "
+        description = description.strip()
         talks.append({
             "title": title,
-            # "description": description,
+            "description": description,
             "persons": persons,
         })
     return talks
