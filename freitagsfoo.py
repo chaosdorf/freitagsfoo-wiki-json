@@ -57,7 +57,7 @@ def parse_talks(sections: List[wtp.Section]) -> List[Talk]:
                 )
         # `{{U|FIXME}}`
         for template in section_.templates:
-            if template.name == "U":
+            if template.name in ("U", "u"):
                 persons.append(
                     template.arguments[0].value.lower()
                 )
