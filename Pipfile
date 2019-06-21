@@ -7,6 +7,7 @@ name = "pypi"
 wikitextparser = "*"
 mwclient = "*"
 mypy-extensions = "*"
+pyopenssl = "*"
 
 [dev-packages]
 mypy = "*"
