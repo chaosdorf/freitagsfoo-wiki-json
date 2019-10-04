@@ -2,7 +2,6 @@
 from mwclient.client import Site
 from mwclient.page import Page
 import wikitextparser as wtp
-import datetime
 import json
 from typing import List, Tuple
 from mypy_extensions import TypedDict
@@ -19,26 +18,30 @@ Result = TypedDict("Result", {
 })
 
 
-def get_friday() -> datetime.date:
-    """Calculate the date of the current week's Friday."""
-    today = datetime.date.today()
-    return today + datetime.timedelta(days=4-today.weekday())
-
-
-def load_page_for_date(site: Site, date: datetime.date) -> Page:
-    """Load the Freitagsfoo wiki page for the given date."""
-    return site.pages["Freitagsfoo/{}".format(date)]
+def load_page(site: Site) -> Page:
+    """Load the wiki page."""
+    return site.pages["18_Jahre_Chaosdorf_Lightningtalks"]
 
 
 def parse_top_section(page: Page) -> Tuple[List[str], str]:
     """Parse the top section, return hosts and date as YYYY-MM-DD."""
     top_section = page.text(section=0)
     parsed_top_section = wtp.parse(top_section)
-    parsed_event = parsed_top_section.templates[0]
     hosts = list()
-    for host in parsed_event.get_arg("Host").value.split(","):
-        hosts.append(host.strip().lower())
-    date = parsed_event.get_arg("Date").value.strip()
+    # `[[User:FIXME|FIXME]]`
+    for wikilink in parsed_top_section.wikilinks:
+        if wikilink.target.startswith("User:"):
+            hosts.append(
+                wikilink.target.replace("User:", "").lower()
+            )
+    # `{{U|FIXME}}`
+    for template in parsed_top_section.templates:
+        if template.name in ("U", "u"):
+            hosts.append(
+                template.arguments[0].value.lower()
+            )
+
+    date = "2019-10-12"
     return hosts, date
 
 
@@ -93,8 +96,6 @@ def parse_page(page: Page) -> Result:
 
 
 site = Site("wiki.chaosdorf.de", path="/")
-date = get_friday()
-page = load_page_for_date(site, date)
+page = load_page(site)
 result = parse_page(page)
-assert result["date"] == str(date)
-json.dump(result, open("freitagsfoo.json", "w"))
+json.dump(result, open("lightning-talks.json", "w"))
