@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
+from bs4 import BeautifulSoup
 from mwclient.client import Site
 from mwclient.page import Page
 import wikitextparser as wtp
 import datetime
 import json
-from typing import List, Tuple
+from typing import Callable, List, Tuple
 from mypy_extensions import TypedDict
 
 Talk = TypedDict("Talk", {
@@ -42,9 +43,19 @@ def parse_top_section(page: Page) -> Tuple[List[str], str]:
     return hosts, date
 
 
-def parse_talks(sections: List[wtp.Section]) -> List[Talk]:
-    """Parse the remaining sections: the talks."""
+def parse_talks(
+    sections: List[wtp.Section], render_function: Callable[[str], str] = None
+) -> List[Talk]:
+    """
+    Parse the remaining sections: the talks.
+    
+    If given a render_function,
+    let it convert the wikitext descriptions to plain text.
+    """
     talks = list()  # type: List[Talk]
+    if render_function is None:
+        print("[WARN] Don't know how to render wikitext.")
+        print("[WARN] Descriptions will be empty.")
     for section in sections[1:]:
         title = section.title.strip()
         persons = list()  # type: List[str]
@@ -62,16 +73,10 @@ def parse_talks(sections: List[wtp.Section]) -> List[Talk]:
                     template.arguments[0].value.lower()
                 )
         # description
-        description = ""
-        for line in section.contents.splitlines():
-            if not line.strip():
-                continue
-            # This tries to filter out lines like "by {{U|FIXME}}".
-            if all((person in line.lower() for person in persons)):
-                if len(line) < len(",".join(persons)) + len(persons)*10 + 5:  # guessed
-                    continue
-            description += line.strip() + " "
-        description = description.strip()
+        if render_function is not None:
+            description = render_function(section.contents)
+        else:
+            description = ""
         talks.append({
             "title": title,
             "description": description,
@@ -80,11 +85,18 @@ def parse_talks(sections: List[wtp.Section]) -> List[Talk]:
     return talks
 
 
-def parse_page(page: Page) -> Result:
-    """Parse the given sections returning a dict."""
+def parse_page(
+    page: Page, render_function: Callable[[str], str] = None
+) -> Result:
+    """
+    Parse the given sections returning a dict.
+    
+    If given a render_function,
+    use it to convert the wikitext descriptions to plain text.
+    """
     hosts, date = parse_top_section(page)
     sections = wtp.parse(page.text()).sections
-    talks = parse_talks(sections)
+    talks = parse_talks(sections, render_function)
     return {
         "hosts": hosts,
         "date": date,
@@ -92,9 +104,19 @@ def parse_page(page: Page) -> Result:
     }
 
 
+def create_online_html_render_function(site: Site) -> Callable[[str], str]:
+    """Create a function (str) -> str that converts wikitext to plain text."""
+    def online_html_render_function(wikitext: str) -> str:
+        """Convert wikitext to plain text by rendering it on the server."""
+        html = site.parse(text=wikitext)["text"]["*"]
+        soup = BeautifulSoup(html)
+        return soup.text.strip()
+    return online_html_render_function
+
+
 site = Site("wiki.chaosdorf.de", path="/")
 date = get_friday()
 page = load_page_for_date(site, date)
-result = parse_page(page)
+result = parse_page(page, create_online_html_render_function(site))
 assert result["date"] == str(date)
 json.dump(result, open("freitagsfoo.json", "w"))

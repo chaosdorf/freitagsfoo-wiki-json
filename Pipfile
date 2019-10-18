@@ -8,6 +8,7 @@ wikitextparser = "*"
 mwclient = "*"
 mypy-extensions = "*"
 pyopenssl = "*"
+beautifulsoup4 = "*"
 
 [dev-packages]
 mypy = "*"
