@@ -57,6 +57,9 @@ def parse_talks(
         print("[WARN] Don't know how to render wikitext.")
         print("[WARN] Descriptions will be empty.")
     for section in sections[1:]:
+        # ignore section if depth is greater than 2
+        if section.level > 2:
+            continue
         title = section.title.strip()
         persons = list()  # type: List[str]
         section_ = wtp.parse(section.string)  # bug!
