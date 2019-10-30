@@ -117,9 +117,10 @@ def create_online_html_render_function(site: Site) -> Callable[[str], str]:
     return online_html_render_function
 
 
-site = Site("wiki.chaosdorf.de", path="/")
-date = get_friday()
-page = load_page_for_date(site, date)
-result = parse_page(page, create_online_html_render_function(site))
-assert result["date"] == str(date)
-json.dump(result, open("freitagsfoo.json", "w"))
+if __name__ == "__main__":
+    site = Site("wiki.chaosdorf.de", path="/")
+    date = get_friday()
+    page = load_page_for_date(site, date)
+    result = parse_page(page, create_online_html_render_function(site))
+    assert result["date"] == str(date)
+    json.dump(result, open("freitagsfoo.json", "w"))
