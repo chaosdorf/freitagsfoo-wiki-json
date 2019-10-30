@@ -1,0 +1,19 @@
+{{Event
+ |  Title = Freitagsfoo
+ |  Description = wöchentliches öffentliches Treffen
+ |  Type = Meet-Up
+ |  Date = 1970-01-01
+ |  Start = 18:00
+ |  Duration = 8
+ |  Host = FIXME
+}}
+{{Freitagsfoo}}
+Alle Anwesenden sind eingeladen, kurze Vorträge zu für sie interessanten Themen
+zu halten. Die Vorträge beginnen meist gegen 21 Uhr; ein einzelner Vortrag
+sollte nicht länger als 20 Minuten sein.
+
+[https://wiki.chaosdorf.de/index.php?title=Freitagsfoo/1970-01-01&amp;action=edit&amp;section=new add your talk here]
+
+== sample talk ==
+
+TODO: We can't test parsing descriptions.
