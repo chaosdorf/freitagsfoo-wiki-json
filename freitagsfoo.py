@@ -123,4 +123,4 @@ if __name__ == "__main__":
     page = load_page_for_date(site, date)
     result = parse_page(page, create_online_html_render_function(site))
     assert result["date"] == str(date)
-    json.dump(result, open("freitagsfoo.json", "w"))
+    json.dump(result, open("freitagsfoo.json", "w"), ensure_ascii=False)
