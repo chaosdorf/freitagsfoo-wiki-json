@@ -122,5 +122,5 @@ def create_online_html_render_function(site: Site) -> Callable[[str], str]:
 if __name__ == "__main__":
     site = Site("wiki.chaosdorf.de", path="/")
     page = load_page(site)
-    result = parse_page(page)
+    result = parse_page(page, create_online_html_render_function(site))
     json.dump(result, open("lightning-talks.json", "w"), ensure_ascii=False)
