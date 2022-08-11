@@ -21,7 +21,7 @@ Result = TypedDict("Result", {
 
 def load_page(site: Site) -> Page:
     """Load the wiki page."""
-    return site.pages["18_Jahre_Chaosdorf_Lightningtalks"]
+    return site.pages["Einweihungsfeier/Lightningtalks"]
 
 
 def parse_top_section(page: Page) -> Tuple[List[str], str]:
@@ -42,7 +42,7 @@ def parse_top_section(page: Page) -> Tuple[List[str], str]:
                 template.arguments[0].value.lower()
             )
 
-    date = "2019-10-12"
+    date = "2022-08-13"
     return hosts, date
 
 
