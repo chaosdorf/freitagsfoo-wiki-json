@@ -13,6 +13,5 @@ beautifulsoup4 = "*"
 [dev-packages]
 mypy = "*"
 nose = "*"
-python-language-server = {extras = ["all"],version = "*"}
 
 [requires]
