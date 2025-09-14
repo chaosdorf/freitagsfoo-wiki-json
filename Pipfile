@@ -11,6 +11,6 @@ pyopenssl = "*"
 beautifulsoup4 = "*"
 
 [dev-packages]
-nose = "*"
+nose2 = "*"
 
 [requires]

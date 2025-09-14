@@ -1,5 +1,4 @@
 from pathlib import Path
-from nose.tools import eq_
 import json
 import freitagsfoo
 
@@ -17,7 +16,7 @@ def for_file(wikitext_file: Path) -> None:
     json_file = wikitext_file.with_suffix(".json")
     expected_data = json.loads(json_file.read_text())
     fake_page = FakePage(wikitext_file.read_text())
-    eq_(freitagsfoo.parse_page(fake_page, None), expected_data)
+    assert freitagsfoo.parse_page(fake_page, None) == expected_data
 
 
 def test_files():
