@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 wikitextparser = "*"
 mwclient = "*"
-mypy-extensions = "*"
 pyopenssl = "*"
 beautifulsoup4 = "*"
 

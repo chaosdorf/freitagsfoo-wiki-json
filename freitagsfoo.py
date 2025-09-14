@@ -5,8 +5,7 @@ from mwclient.page import Page
 import wikitextparser as wtp
 import datetime
 import json
-from typing import Callable, List, Tuple
-from mypy_extensions import TypedDict
+from typing import Callable, List, Tuple, TypedDict
 
 Talk = TypedDict("Talk", {
     "title": str,

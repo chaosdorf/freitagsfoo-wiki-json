@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "dd04d26e659386ee9df33cebc6af95d28280af12e3e9f0379e0cfc071e9eb654"
+            "sha256": "4a9a7aa2fbbf297209ea327f20d79e4610f22de5d9156badbfcc4b774dc65b02"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -265,15 +265,6 @@
             "index": "pypi",
             "version": "==0.11.0"
         },
-        "mypy-extensions": {
-            "hashes": [
-                "sha256:1be4cccdb0f2482337c4743e60421de3a356cd97508abadd57d47403e94f5505",
-                "sha256:52e68efc3284861e772bbcd66823fde5ae21fd2fdb51c62a211403730b916558"
-            ],
-            "index": "pypi",
-            "markers": "python_version >= '3.8'",
-            "version": "==1.1.0"
-        },
         "oauthlib": {
             "hashes": [
                 "sha256:0f0f8aa759826a193cf66c12ea1af1637f87b9b4622d46e866952bb022e538c9",
@@ -421,7 +412,7 @@
                 "sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466",
                 "sha256:f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548"
             ],
-            "markers": "python_version >= '3.9'",
+            "markers": "python_version < '3.13' and python_version >= '3.8'",
             "version": "==4.15.0"
         },
         "urllib3": {
