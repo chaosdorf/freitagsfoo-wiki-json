@@ -10,7 +10,7 @@ jobs:
     - name: Install dependencies
       uses: VaultVulp/action-pipenv@v2.0.1
       with:
-        command: install --dev
+        command: install --dev --python 3.12
     - name: Run tests
       uses: VaultVulp/action-pipenv@v2.0.1
       with:
